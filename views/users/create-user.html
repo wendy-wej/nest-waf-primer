@@ -1,0 +1,182 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+<div class="grid-container">
+    <div class="navigation-bar grid-item-row-1">
+        <div class="navigation-bar-left">
+            <div>
+                <a href="/" >Home</a>
+            </div>
+            <div>
+                <a href="/about-us">About Us</a>
+            </div>
+            <div>
+                <a href="/users/create" class="active">Add user</a>
+            </div>
+        </div>
+        <div class="navigation-bar-right">
+            <div>
+                <input type="search">
+                <button>Search</button>
+            </div>
+
+        </div>
+    </div>
+    <div class="grid-item-row-2">
+        <form class="box" id="createUserForm" action="/users" method="POST">
+            <fieldset id="createUserFormFieldSet" class="container">
+                <div class="field">
+                    <label class="label">First name:</label>
+                    <div class="control has-icons-right">
+                        <input class="input" id="firstName" name="firstName" type="text" placeholder="First name" required>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Middle name:</label>
+                    <div class="control has-icons-right">
+                        <input class="input" id="middleName" name="middleName" type="text" placeholder="Middle name">
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Last name:</label>
+                    <div class="control has-icons-right">
+                        <input class="input" id="lastName" name="lastName" type="text" placeholder="Last name">
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Email:</label>
+                    <div class="control has-icons-right">
+                        <input class="input" id="email" name="email" type="email" placeholder="Email" required>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Date of birth:</label>
+                    <div class="control has-icons-right">
+                        <input class="input" id="dateOfBirth" name="dateOfBirth" type="date" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" placeholder="yyyy-mm-dd">
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Nationality:</label>
+                    <div class="control has-icons-right">
+                        <input class="input" id="nationality" name="nationality" type="text" placeholder="Nationality">
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Address:</label>
+                    <div class="control has-icons-right">
+                        <input class="input" id="address" name="address" type="text" placeholder="Address">
+                    </div>
+                </div>
+                
+                <div class="field is-grouped">
+                    <div class="control">
+                        <button type="submit" id="submitCreateUserForm" class="button is-link is-small">Submit</button>
+                    </div>
+                    <div class="control">
+                        <button type="reset" class="button is-light is-small">Clear</button>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+        
+    </div>
+</div>
+
+
+<section class="section">
+    <div class="container">
+        <div id="notification" class="notification container is-hidden animated slideInUp">
+            <button class="delete"></button>
+            <div id="notificationMessage">
+                {{notificationMessage}}
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+{% endblock %}
+
+<script>
+    const createUserForm = document.getElementById('createUserForm');
+
+    createUserForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    //Get fields and check validities
+    const firstName = document.getElementById('firstName').value;
+    if (firstName == '') {
+        firstName.reportValidity();
+        return false;
+    }
+
+    const middleName = document.getElementById('middleName').value;
+    
+    const lastName = document.getElementById('lastName').value;
+    if (lastName == '') {
+        lastName.reportValidity();
+        return false;
+    }
+
+    const email = document.getElementById('email').value;
+    if (email == '') {
+        email.reportValidity();
+        return false;
+    }
+
+    const dateOfBirth = document.getElementById('dateOfBirth').value;
+    if (dateOfBirth == '') {
+        dateOfBirth.reportValidity();
+        return false;
+    }
+    
+    const nationality = document.getElementById('nationality').value;
+    
+    const address = document.getElementById('address').value;
+
+
+    //start the button spinner
+    document.getElementById("submitCreateUserForm").classList.add("is-loading");
+
+    //prepare init for fetch
+    const init = {
+        method: 'Post',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        //credentials: 'same-origin',
+        body: JSON.stringify({ firstName, middleName, lastName, email, dateOfBirth, nationality, address })
+    }
+
+    //call fetch
+    fetch('/users', init)
+        .then(response => response.json())
+        .then(data => {
+            //alert(JSON.stringify(data))
+            //remove spinner class
+            document.getElementById("submitCreateUserForm").classList.remove("is-loading");
+            //set notification
+            document.getElementById("notificationMessage").innerHTML = 'User creation successful';
+            //add notification color class sent
+            document.getElementById("notification").classList.add("is-success");
+            //remove is-hidden from notificationWrapper
+            document.getElementById("notification").classList.remove("is-hidden");
+
+        })
+        .catch(error => {
+            //remove spinner class
+            document.getElementById("submitCreateUserForm").classList.remove("is-loading");
+
+            document.getElementById("notificationMessage").innerHTML = error.message;
+            //add notification color class sent
+            document.getElementById("notification").classList.add("is-danger");
+            //remove is-hidden from notificationWrapper
+            document.getElementById("notification").classList.remove("is-hidden");
+
+        });
+    })
+
+</script>
