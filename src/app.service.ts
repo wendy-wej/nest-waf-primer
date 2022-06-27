@@ -12,7 +12,7 @@ export class AppService {
     return 'Hello World!';
   }
   getHello2(): {} {
-    return {message: 'Hello World!', title: 'My Greeting App'};
+    return {message: 'Hello World! I am using @getHello2', title: 'My Greeting App'};
     }
   }
 

@@ -5,22 +5,23 @@ import { AppService } from './app.service';
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
+  @Get('hello')
+  getHello(): string {
+  return this.appService.getHello();
+  }
+  /* end of part 1 */
+
   @Get()
   @Render('home.html')
   getHome(): {} {
   return this.appService.getHome();
     }
-
+ 
   @Get('about-us')
   @Render('about-us.html')
   getAboutUs(): {} {
   return this.appService.getAboutUs();
       }
-
-  @Get('hello')
-  getHello(): string {
-    return this.appService.getHello();
-  }
 
   /**
    * Here we will create another route relative to the controller's base root /

@@ -7,10 +7,7 @@ import { UpdateStudentDto } from './dto/update-student.dto';
 export class StudentsController {
   constructor(private readonly studentsService: StudentsService) {}
 
-  @Get('create')
-  @Render('students/create-student.html')
-  createForm() {
-  }
+  
 
   @Post()
   create(@Body() createStudentDto: CreateStudentDto) {
@@ -27,30 +24,14 @@ export class StudentsController {
     return this.studentsService.findOne(+id);
   }
 
-  @Put(':id')
-  update(@Param('id') id: string, @Body() updateStudentDto: 
-  UpdateStudentDto) {
-  return this.studentsService.update(+id, updateStudentDto);
-  }
- /* 
+  
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateStudentDto: UpdateStudentDto) {
     return this.studentsService.update(+id, updateStudentDto);
   }
-  */
- 
-  @Patch(':studentId/user/userId')
-  setUserById(
-    @Param('studentId') studentId: number, 
-    @Param('userId') userId: number) {
-  return this.studentsService.setUserById(+studentId, 
-  userId);
-  }
 
-  @Delete(':studentId/user')
-  unsetUserById(@Param('studentId') studentId: number) {
-  return this.studentsService.unsetUserById(+studentId);
-  }
-  
-  
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.studentsService.remove(+id);
+}
 }

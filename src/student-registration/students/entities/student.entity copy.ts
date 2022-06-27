@@ -8,27 +8,6 @@ export class Student {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({ nullable: true })
-    firstName: string;
-
-    @Column({nullable: true})
-    middleName: string;
-  
-    @Column({ nullable: true })
-    lastName: string;
-
-    @Column({ nullable: true })
-    email: string;
-
-    @Column({ nullable: true })
-    dateOfBirth: Date;
-
-    @Column({nullable: true})
-    nationality: string
-
-    @Column({nullable: true})
-    address: string
-
     @Column()
     department: string;
 
@@ -45,6 +24,6 @@ export class Student {
     yearOfEntry: number;
 
     @JoinColumn()
-    @OneToOne((type) => User, (user) => user.student, {cascade:true})
+    @OneToOne(type => User, user => user.student, {cascade:true})
     user: User;
 }

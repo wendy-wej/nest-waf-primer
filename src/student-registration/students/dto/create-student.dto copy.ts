@@ -2,14 +2,7 @@ import { CreateUserDto } from "../../../student-registration/users/dto/create-us
 import { ModeOfEntry } from "../../../student-registration/studentRegistration.types";
 
 export class CreateStudentDto {
-    readonly firstName: string;
-    readonly middleName?: string;
-    readonly lastName: string;
-    readonly email: string;
-    readonly dateOfBirth?: Date;
-    readonly nationality?: string
-    readonly address?: string
-    //
+    
     readonly department: string;
     readonly matriculationNumber: string;
     readonly modeOfEntry: ModeOfEntry;

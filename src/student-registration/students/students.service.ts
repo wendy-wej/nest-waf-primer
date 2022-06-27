@@ -55,7 +55,8 @@ export class StudentsService {
   /* Work on relationships */
   async setUserById(studentId: number, userId: number) {
     try {
-      return await this.studentRepository.createQueryBuilder()
+      return await this.studentRepository
+        .createQueryBuilder()
         .relation(Student, "user")
         .of(studentId)
         .set(userId)
@@ -69,7 +70,8 @@ export class StudentsService {
 
   async unsetUserById(studentId: number) {
     try {
-      return await this.studentRepository.createQueryBuilder()
+      return await this.studentRepository
+        .createQueryBuilder()
         .relation(Student, "user")
         .of(studentId)
         .set(null)
